@@ -44,12 +44,6 @@ public class CallActivity extends AppCompatActivity {
         init();
     }
 
-    @Override
-    protected void onDestroy() {
-        socketRepository.disconnect();
-        super.onDestroy();
-    }
-
     public void init() {
         userName = getIntent().getStringExtra("username");
         socketRepository = new SocketRepository(userName) {
@@ -62,8 +56,7 @@ public class CallActivity extends AppCompatActivity {
             @Override
             public void onAddStream(MediaStream mediaStream) {
                 super.onAddStream(mediaStream);
-                if (mediaStream.videoTracks.size() > 0)
-                    mediaStream.videoTracks.get(0).addSink(binding.remoteView);
+                mediaStream.videoTracks.get(0).addSink(binding.remoteView);
                 Log.d(TAG, "onAddStream: " + mediaStream);
             }
 
@@ -134,10 +127,6 @@ public class CallActivity extends AppCompatActivity {
             setWhoToCallLayoutVisible();
             setIncomingCallLayoutGone();
             rtcClient.endCall();
-            socketRepository.sendMessageToSocket(
-                    new MessageModels("call_ended", userName, target, null)
-            );
-            target = "";
         });
     }
 
@@ -167,17 +156,7 @@ public class CallActivity extends AppCompatActivity {
 
     private void newMessage(MessageModels message) {
         Log.d("SocketRepository", "onNewMessage: " + message.toString());
-
-        if ("store_user_response".equals(message.type)) {
-            if (message.data.toString().equals("user already exists")) {
-                // user offline
-                runOnUiThread(() -> {
-                            Toast.makeText(CallActivity.this, "Username Already In Use", Toast.LENGTH_LONG).show();
-                            finish();
-                        }
-                );
-            }
-        } else if ("call_response".equals(message.type)) {
+        if ("call_response".equals(message.type)) {
             if (message.data.toString().equals("user is not online")) {
                 // user offline
                 runOnUiThread(() ->
@@ -214,8 +193,8 @@ public class CallActivity extends AppCompatActivity {
                     setIncomingCallLayoutGone();
                     setCallLayoutVisible();
                     setWhoToCallLayoutGone();
-//                    rtcClient.initializeSurfaceView(binding.localView);
-//                    rtcClient.initializeSurfaceView(binding.remoteView);
+                    rtcClient.initializeSurfaceView(binding.localView);
+                    rtcClient.initializeSurfaceView(binding.remoteView);
                     rtcClient.startLocalVideo(binding.localView);
 
                     SessionDescription sessionDescription = new SessionDescription(
@@ -241,16 +220,6 @@ public class CallActivity extends AppCompatActivity {
                             receivingCandidate.sdpCandidate
                     )
             );
-            binding.videoButton.setImageResource(R.drawable.ic_baseline_videocam_off_24);
-            rtcClient.toggleCamera(true);
-        } else if ("call_ended".equals(message.type)) {
-            this.rtcClient.endCall();
-            runOnUiThread(() -> {
-                setCallLayoutGone();
-                setWhoToCallLayoutVisible();
-                setIncomingCallLayoutGone();
-                Toast.makeText(CallActivity.this, "Call Ended", Toast.LENGTH_LONG).show();
-            });
         }
     }
 }

@@ -9,7 +9,6 @@ import org.webrtc.AudioSource;
 import org.webrtc.AudioTrack;
 import org.webrtc.Camera2Enumerator;
 import org.webrtc.CameraVideoCapturer;
-import org.webrtc.DataChannel;
 import org.webrtc.DefaultVideoDecoderFactory;
 import org.webrtc.DefaultVideoEncoderFactory;
 import org.webrtc.EglBase;
@@ -18,7 +17,6 @@ import org.webrtc.MediaConstraints;
 import org.webrtc.MediaStream;
 import org.webrtc.PeerConnection;
 import org.webrtc.PeerConnectionFactory;
-import org.webrtc.RtpReceiver;
 import org.webrtc.SdpObserver;
 import org.webrtc.SessionDescription;
 import org.webrtc.SurfaceTextureHelper;
@@ -141,7 +139,7 @@ public class RTCClient {
         mediaConstraints.mandatory.add(
                 new MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"));
         mediaConstraints.mandatory.add(
-                new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "false"));
+                new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "true"));
 
         peerConnection.createOffer(new SdpObserver() {
             @Override
@@ -213,7 +211,7 @@ public class RTCClient {
         mediaConstraints.mandatory.add(
                 new MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"));
         mediaConstraints.mandatory.add(
-                new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "false"));
+                new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "true"));
 
 
         peerConnection.createAnswer(new SdpObserver() {
