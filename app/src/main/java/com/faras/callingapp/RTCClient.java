@@ -139,7 +139,7 @@ public class RTCClient {
         mediaConstraints.mandatory.add(
                 new MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"));
         mediaConstraints.mandatory.add(
-                new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "true"));
+                new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "false"));
 
         peerConnection.createOffer(new SdpObserver() {
             @Override
@@ -211,7 +211,7 @@ public class RTCClient {
         mediaConstraints.mandatory.add(
                 new MediaConstraints.KeyValuePair("OfferToReceiveAudio", "true"));
         mediaConstraints.mandatory.add(
-                new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "true"));
+                new MediaConstraints.KeyValuePair("OfferToReceiveVideo", "false"));
 
 
         peerConnection.createAnswer(new SdpObserver() {

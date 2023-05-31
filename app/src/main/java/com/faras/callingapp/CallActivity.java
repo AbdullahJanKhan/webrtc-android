@@ -56,7 +56,8 @@ public class CallActivity extends AppCompatActivity {
             @Override
             public void onAddStream(MediaStream mediaStream) {
                 super.onAddStream(mediaStream);
-                mediaStream.videoTracks.get(0).addSink(binding.remoteView);
+                if (mediaStream.videoTracks.size() > 0)
+                    mediaStream.videoTracks.get(0).addSink(binding.remoteView);
                 Log.d(TAG, "onAddStream: " + mediaStream);
             }
 
@@ -71,6 +72,8 @@ public class CallActivity extends AppCompatActivity {
                 socketRepository.sendMessageToSocket(
                         new MessageModels("ice_candidate", userName, target, candidate)
                 );
+                binding.videoButton.setImageResource(R.drawable.ic_baseline_videocam_off_24);
+                rtcClient.toggleCamera(true);
             }
         });
         rtcAudioManager = RTCAudioManager.create(this);
@@ -193,8 +196,8 @@ public class CallActivity extends AppCompatActivity {
                     setIncomingCallLayoutGone();
                     setCallLayoutVisible();
                     setWhoToCallLayoutGone();
-                    rtcClient.initializeSurfaceView(binding.localView);
-                    rtcClient.initializeSurfaceView(binding.remoteView);
+//                    rtcClient.initializeSurfaceView(binding.localView);
+//                    rtcClient.initializeSurfaceView(binding.remoteView);
                     rtcClient.startLocalVideo(binding.localView);
 
                     SessionDescription sessionDescription = new SessionDescription(
@@ -220,6 +223,8 @@ public class CallActivity extends AppCompatActivity {
                             receivingCandidate.sdpCandidate
                     )
             );
+            binding.videoButton.setImageResource(R.drawable.ic_baseline_videocam_off_24);
+            rtcClient.toggleCamera(true);
         }
     }
 }
