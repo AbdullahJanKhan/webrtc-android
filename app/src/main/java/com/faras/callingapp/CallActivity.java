@@ -72,8 +72,6 @@ public class CallActivity extends AppCompatActivity {
                 socketRepository.sendMessageToSocket(
                         new MessageModels("ice_candidate", userName, target, candidate)
                 );
-                binding.videoButton.setImageResource(R.drawable.ic_baseline_videocam_off_24);
-                rtcClient.toggleCamera(true);
             }
         });
         rtcAudioManager = RTCAudioManager.create(this);
