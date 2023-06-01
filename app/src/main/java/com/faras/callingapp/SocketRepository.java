@@ -25,7 +25,7 @@ public class SocketRepository implements NewMessageInterface {
         // and get your ethernet ipv4 , mine is : "ws://192.168.1.25:3000"
         // but if your websocket is deployed you add your websocket address here
         try {
-            this.webSocketClient = new WebSocketClient(new URI("wss://3e92-58-65-176-42.ngrok-free.app")) {
+            this.webSocketClient = new WebSocketClient(new URI("wss://7a13-58-65-176-42.ngrok-free.app")) {
                 @Override
                 public void onOpen(ServerHandshake handshake) {
                     sendMessageToSocket(
