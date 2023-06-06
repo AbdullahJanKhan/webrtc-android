@@ -44,6 +44,12 @@ public class CallActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    protected void onDestroy() {
+        socketRepository.disconnect();
+        super.onDestroy();
+    }
+
     public void init() {
         userName = getIntent().getStringExtra("username");
         socketRepository = new SocketRepository(userName) {
@@ -157,7 +163,17 @@ public class CallActivity extends AppCompatActivity {
 
     private void newMessage(MessageModels message) {
         Log.d("SocketRepository", "onNewMessage: " + message.toString());
-        if ("call_response".equals(message.type)) {
+
+        if ("store_user_response".equals(message.type)) {
+            if (message.data.toString().equals("user already exists")) {
+                // user offline
+                runOnUiThread(() -> {
+                            Toast.makeText(CallActivity.this, "Username Already In Use", Toast.LENGTH_LONG).show();
+                            finish();
+                        }
+                );
+            }
+        } else if ("call_response".equals(message.type)) {
             if (message.data.toString().equals("user is not online")) {
                 // user offline
                 runOnUiThread(() ->
