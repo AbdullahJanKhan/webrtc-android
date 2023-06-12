@@ -134,6 +134,10 @@ public class CallActivity extends AppCompatActivity {
             setWhoToCallLayoutVisible();
             setIncomingCallLayoutGone();
             rtcClient.endCall();
+            socketRepository.sendMessageToSocket(
+                    new MessageModels("call_ended", userName, target, null)
+            );
+            target = "";
         });
     }
 
@@ -239,6 +243,14 @@ public class CallActivity extends AppCompatActivity {
             );
             binding.videoButton.setImageResource(R.drawable.ic_baseline_videocam_off_24);
             rtcClient.toggleCamera(true);
+        } else if ("call_ended".equals(message.type)) {
+            this.rtcClient.endCall();
+            runOnUiThread(() -> {
+                setCallLayoutGone();
+                setWhoToCallLayoutVisible();
+                setIncomingCallLayoutGone();
+                Toast.makeText(CallActivity.this, "Call Ended", Toast.LENGTH_LONG).show();
+            });
         }
     }
 }
