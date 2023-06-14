@@ -81,3 +81,7 @@ Connections                   ttl     opn     rt1     rt5     p50     p90
 ```
 
 The link `https://c76d-58-65-176-42.ngrok-free.app` should be added as a URI in the SocketRepository class, as discussed earlier.
+* * *
+## How the App Works?
+A detailed description is addressed in the following article
+- https://medium.com/@abdullah-jan-khan/maximizing-webrtc-potential-unleashing-power-in-android-apps-with-stun-turn-servers-ice-79c17b010bd8
