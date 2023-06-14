@@ -83,6 +83,6 @@ Connections                   ttl     opn     rt1     rt5     p50     p90
                               0       0       0.00    0.00    0.00    0.00  
 ```
 
-The link `https://c76d-58-65-176-42.ngrok-free.app` should be added as a URI in the SocketRepository class, as discussed earlier.
+The link `https://c76d-58-65-176-42.ngrok-free.app`  is a secure endpoint and can be use with the prefix of `wss://` instead of `https://` as it is a WebSocket based server. This link should be added as a URI in the SocketRepository class, as discussed earlier. 
 * * *
 
